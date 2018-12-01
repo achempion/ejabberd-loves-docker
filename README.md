@@ -7,8 +7,8 @@ Hassle-free ejabberd bootstrap as a docker container
 ### generate certificate for tls
 ```sh
 $ mkdir -p certs/localhost && cd certs/localhost
-$ # generate certs [Certificate section](#Certificate), make sure “Common name” is "localhost"
 ```
+and generate certs [Certificate section](#Certificate), make sure “Common name” is "localhost"
 
 ### dockerize it
 ```sh
@@ -18,7 +18,7 @@ $ docker run -p 5222:5222 ejj
 
 ### create first user
 ```sh
-$ docker ps // obtain ejj container id
+$ docker ps # obtain ejj's container id
 $ docker exec -it <container-id> sh
 
 # user "test" with password "test"
@@ -41,7 +41,7 @@ Create Certificate file. Make sure “Common name” matches your desired server
 $ openssl req -new -key key.pem -out request.pem
 ```
 
-Sign the Certificate file for 900 days expiration:::
+Sign the Certificate file for 900 days expiration
 ```sh
 $ openssl x509 -req -days 900 -in request.pem -signkey key.pem -out certificate.pem
 ```
@@ -73,6 +73,6 @@ to your ejabbered server you can run nginx config on proxy host
 
 ```sh
 $ docker run  -v /srv/app/nginx.conf:/etc/nginx/nginx.conf:ro -p 5222:5222 -d nginx:alpine
-``
+```
 
 Of course it is better to use some unpapular port to limit possible bots' requests
