@@ -1,0 +1,24 @@
+FROM arm32v7/erlang:21.1.3-slim
+
+RUN apt update && apt install -y \
+    automake \
+    build-essential \
+    dirmngr \
+    git-core \
+    gpg \
+    libexpat-dev \
+    libgd-dev \
+    libssl-dev \
+    libyaml-dev \
+    wget
+
+WORKDIR /app
+RUN apt install unzip
+RUN wget https://github.com/processone/ejabberd/archive/18.09.zip && \
+    unzip 18.09.zip && cd ejabberd-18.09/ && \
+    ./autogen.sh && ./configure && make && make install
+
+COPY ejabberd.yml.example /usr/local/etc/ejabberd/ejabberd.yml
+COPY certs/localhost/server.pem /etc/ejabberd/server.pem
+
+CMD ejabberdctl foreground
